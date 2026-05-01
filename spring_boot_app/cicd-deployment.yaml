@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cicd-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: cicd-deployment
+        editor: vscode
+    spec:
+      containers:
+      - name: name
+        image: Enter containers image
+        resources:  
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 80
+          

@@ -1,0 +1,35 @@
+pipeline{
+    agent any
+
+    environment{
+        IMAGE = "amulu876/index-html:${BUILD_NUMBER}"
+    }
+    stages{
+        stage('checkout'){
+            steps{
+                git 'https://github.com/Aditi336/ci_cd_pipeline_kub.git'
+            }
+        }
+        stage('docker build'){
+            steps{
+                sh 'sudo docker build -t Aditi336/ci_cd_pipeline_kub:$docker_version'
+            }
+        }
+        stage('docker push'){
+            steps{
+                withCredentials([usernameColonPassword(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                    // some block
+                }
+                sh 'sudo docker push Aditi336/ci_cd_pipeline_kub:$docker_version'
+            }
+        }
+        stage('k8s deploy'){
+            steps{
+                sh '''
+                kubectl get pods
+                kubectl set image deployment cicd-deployment cicd-deployment=Aditi336/ci_cd_pipeline_kub:$docker_version
+                '''
+            }
+        }
+    }
+}
