@@ -6,8 +6,12 @@ pipeline{
     }
     }
 
+    parameters {
+        string(name: 'IMAGE_TAG', defaultValue: '', description: 'Docker image tag (leave empty to use build number)')
+    }
+
     environment{
-        IMAGE = "amulu876/index-html:${BUILD_NUMBER}"
+        IMAGE = "amulu876/index-html:${params.IMAGE_TAG ?: BUILD_NUMBER}"
     }
     stages{
         stage('checkout'){

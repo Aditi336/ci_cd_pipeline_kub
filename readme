@@ -9,6 +9,13 @@
         -v /var/run/docker.sock:/var/run/docker.sock \
         jenkins/jenkins:lts
 
+        docker run -d \
+  --name jenkins \
+  -p 8080:8080 -p 50000:50000 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v jenkins_home:/var/jenkins_home \
+  jenkins/jenkins:lts
+
     # docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword = this is used to get the jenkins passwd which is used to install requried packages
     # http://localhost:8080 = open the link and add the admin passwd and install the required packages
 
@@ -67,3 +74,14 @@
 
 15. To make sure jenkins trust all git 
     # git config --global --add safe.directory '*'
+
+16. Reason to specify the "docker agent" in the code
+    -> this helps to skip the manual installation of the docker in the jenkins. This cmd Spin up a temporary container (docker:latest)
+    agent {
+        docker {
+        image 'docker:latest'
+        args '-v /var/run/docker.sock:/var/run/docker.sock'
+    }
+    }
+17. to access jenkins password
+    # docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
