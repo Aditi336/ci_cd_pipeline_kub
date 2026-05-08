@@ -1,7 +1,65 @@
 1. install jenkins in docker(if open-jdk is not installed)
     # mkdir -p ~/jenkins_home
     
-    # docker run -d \ --name jenkins \ -p 8080:8080 \  -p 50000:50000 \ -v ~/jenkins_home:/var/jenkins_home \ -v /var/run/docker.sock:/var/run/docker.sock \ jenkins/jenkins:lts
+        docker run -d \
+        --name jenkins \
+        -p 8080:8080 \
+        -p 50000:50000 \
+        -v ~/jenkins_home:/var/jenkins_home \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        jenkins/jenkins:lts
 
     # docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword = this is used to get the jenkins passwd which is used to install requried packages
     # http://localhost:8080 = open the link and add the admin passwd and install the required packages
+
+2. create jenkins file
+    # jenkins file can be created in any folder with any name, There is no format to follow
+
+3. to launch the jenkins in the docker
+    #  docker start jenkins
+
+4. Maven installation
+    # we install "docker pipeline" plugin which has maven in them
+
+5. sonarqube installation
+    # we install "sonar qube" plugin
+
+6. Install sonar server
+    # if the jenkins in deplyed in the aws, then we need to deploy sonar server in aws
+    # if jenkins in deployed in the docker, then deploy sonar server in the docker
+        ## docker pull sonarqube:lts-community
+        ## docker run -d \
+        --name sonarqube \
+        -p 9000:9000 \
+        sonarqube:lts-community
+
+7. Connecting sonarqube and jenkins
+    # in sonarqube->myaccount->security->generate token
+    # in jenkins->settings->credentials->secret text-> paste the token in the id field
+
+8. To restart jenkins
+    # http://localhost:8080/restart
+
+9. Minikube installation
+    # brew install minikube
+    # minikube start
+    # minikube status
+
+10. Argocd installation
+    # kubectl create namespace argocd
+    # kubectl apply -n argocd \
+  -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+11. To start argocd
+    # kubectl port-forward svc/argocd-server -n argocd 8082:443
+
+12. to login to argocs
+    # kubectl -n argocd get secret argocd-initial-admin-secret \
+    -o jsonpath="{.data.password}" | base64 -d
+
+13. Creating argocd.yaml
+    # We are adding "update manifest" step which is used to update the github code 
+    # like deployment.yaml with the latest image version
+    # we are creating argocd.yaml to updated the deployed pod with the new build
+
+14. 

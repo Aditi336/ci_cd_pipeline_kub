@@ -12,24 +12,52 @@ pipeline{
         }
         stage('docker build'){
             steps{
-                sh 'sudo docker build -t Aditi336/ci_cd_pipeline_kub:$docker_version'
+                sh ' docker build -t $IMAGE .'
             }
         }
         stage('docker push'){
             steps{
-                withCredentials([usernameColonPassword(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-                    // some block
-                }
-                sh 'sudo docker push Aditi336/ci_cd_pipeline_kub:$docker_version'
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub', 
+                    usernameVariable:'USER'
+                    passwordVariable:'PASS'
+                    )]) {
+                
+
+                sh ''' 
+                echo $PASS | docker login -u $USER --password-stdin
+                docker push $IMAGE'''
+                    }
             }
         }
-        stage('k8s deploy'){
+        
+        stage('update manifest repo'){
             steps{
-                sh '''
-                kubectl get pods
-                kubectl set image deployment cicd-deployment cicd-deployment=Aditi336/ci_cd_pipeline_kub:$docker_version
-                '''
+                withCredentials([string(credentialsId:'github',variable:'GIT_TOKEN')]){
+                    sh '''
+                    git clone https://${GIT_TOKEN}@github.com/Aditi336/cd_k8s_manifest.git
+                    cd cd_k8s_manifest
+                    sed -i "s|amulu876/index-html:.*|amulu876/index-html:${BUILD_NUMBER}|g" deployment.yaml
+
+                    git config user.email "aditijuly2004@gmail.com"
+                    git config user.name "jenkins"
+
+                    git add deployment.yaml
+                    git commit -m "Update image to ${BUILD_NUMBER}"
+                    git push origin main
+
+                    '''
+                }
             }
         }
+        // stage('k8s deploy'){
+        //     steps{
+        //         sh '''
+        //         kubectl get pods
+        //         kubectl set image deployment/cicd-deployment \
+        //        cicd-deployment=$IMAGE
+        //         '''
+        //     }
+        // }
     }
 }
