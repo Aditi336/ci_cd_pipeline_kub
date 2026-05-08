@@ -62,4 +62,8 @@
     # like deployment.yaml with the latest image version
     # we are creating argocd.yaml to updated the deployed pod with the new build
 
-14. 
+14. To open jenkins container
+    # docker exec -it jenkins bash
+
+15. To make sure jenkins trust all git 
+    # git config --global --add safe.directory '*'
