@@ -44,7 +44,7 @@ pipeline{
             steps{
                 withCredentials([string(credentialsId:'github',variable:'GIT_TOKEN')]){
                     sh '''
-                    git clone https://${GIT_TOKEN}@github.com/Aditi336/cd_k8s_manifest.git
+                    git clone https://Aditi336:${GIT_TOKEN}@github.com/Aditi336/cd_k8s_manifest.git
                     cd cd_k8s_manifest
                     sed -i "s|amulu876/index-html:.*|amulu876/index-html:${BUILD_NUMBER}|g" deployment.yaml
 
