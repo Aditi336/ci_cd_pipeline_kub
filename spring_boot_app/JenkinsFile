@@ -46,12 +46,12 @@ pipeline{
                     sh '''
                     git clone https://Aditi336:${GIT_TOKEN}@github.com/Aditi336/cd_k8s_manifest.git
                     cd cd_k8s_manifest
-                    sed -i "s|amulu876/index-html:.*|amulu876/index-html:${BUILD_NUMBER}|g" deployment.yaml
+                    sed -i "s|amulu876/index-html:.*|amulu876/index-html:${BUILD_NUMBER}|g" cicd-deployment.yaml
 
                     git config user.email "aditijuly2004@gmail.com"
                     git config user.name "jenkins"
 
-                    git add deployment.yaml
+                    git add cicd-deployment.yaml
                     git commit -m "Update image to ${BUILD_NUMBER}"
                     git push origin main
 
