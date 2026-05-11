@@ -9,12 +9,9 @@
         -v /var/run/docker.sock:/var/run/docker.sock \
         jenkins/jenkins:lts
 
-        docker run -d \
-  --name jenkins \
-  -p 8080:8080 -p 50000:50000 \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v jenkins_home:/var/jenkins_home \
-  jenkins/jenkins:lts
+        
+
+  docker run -d \\n-p 8080:8080 \\n-p 50000:50000 \\n--name jenkins \\n-u root \\n-v /var/run/docker.sock:/var/run/docker.sock \\njenkins/jenkins:lts
 
     # docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword = this is used to get the jenkins passwd which is used to install requried packages
     # http://localhost:8080 = open the link and add the admin passwd and install the required packages
@@ -70,7 +67,10 @@
     # we are creating argocd.yaml to updated the deployed pod with the new build
 
 14. To open jenkins container
-    # docker exec -it jenkins bash
+    # docker exec -u root -it jenkins bash
+    # apt update
+    # apt install -y docker.io
+
 
 15. To make sure jenkins trust all git 
     # git config --global --add safe.directory '*'
@@ -83,5 +83,3 @@
         args '-v /var/run/docker.sock:/var/run/docker.sock'
     }
     }
-17. to access jenkins password
-    # docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword

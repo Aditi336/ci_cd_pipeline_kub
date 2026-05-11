@@ -1,0 +1,33 @@
+🔧 Fix (step-by-step)
+1. Stop and remove old container
+docker stop jenkins
+docker rm jenkins
+2. Start Jenkins with correct socket (Colima)
+docker run -d \
+-p 8080:8080 \
+-p 50000:50000 \
+--name jenkins \
+-u root \
+-v /var/run/docker.sock:/var/run/docker.sock \
+jenkins/jenkins:lts
+
+3. Fix permissions (important)
+chmod 666 ~/.colima/default/docker.sock
+4. Verify
+docker exec -it jenkins docker ps
+
+👉 If this works → your pipeline will work
+
+⚠️ One more thing (very important)
+
+Even after fixing socket, you still need Docker CLI inside Jenkins container
+
+Run once:
+
+docker exec -it -u root jenkins bash
+apt update
+apt install -y docker.io
+exit
+
+5f51de2dcbae45499bebd1be504d1197
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
