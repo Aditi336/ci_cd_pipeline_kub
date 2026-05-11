@@ -21,7 +21,7 @@ pipeline{
         }
         stage('docker build'){
             steps{
-                sh ' docker build -t $IMAGE .'
+                sh ' docker build -t $IMAGE "./spring_boot_app"'
             }
         }
         stage('docker push'){
