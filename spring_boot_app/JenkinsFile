@@ -49,7 +49,7 @@ pipeline{
                     )]){
                     sh '''
                     rm -rf cd_k8s_manifest
-                    git clone https://Aditi336:${GIT_TOKEN}@github.com/Aditi336/cd_k8s_manifest.git
+                    git clone https://${GIT_USER}:${GIT_PASS}@github.com/Aditi336/cd_k8s_manifest.git
                     cd cd_k8s_manifest
                     sed -i "s|amulu876/index-html:.*|amulu876/index-html:${BUILD_NUMBER}|g" cicd-deployment.yaml
 
