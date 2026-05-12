@@ -42,7 +42,11 @@ pipeline{
         
         stage('update manifest repo'){
             steps{
-                withCredentials([string(credentialsId:'github',variable:'GIT_TOKEN')]){
+                withCredentials([usernamePassword(
+                    credentialsId: 'github_clone',
+                    usernameVariable: 'GIT_USER',
+                    passwordVariable: 'GIT_PASS'
+                    )]){
                     sh '''
                     rm -rf cd_k8s_manifest
                     git clone https://Aditi336:${GIT_TOKEN}@github.com/Aditi336/cd_k8s_manifest.git
