@@ -66,14 +66,14 @@
     # like deployment.yaml with the latest image version
     # we are creating argocd.yaml to updated the deployed pod with the new build
 
-14. To open jenkins container
+14. To open jenkins container and add docker
     # docker exec -u root -it jenkins bash
     # apt update
     # apt install -y docker.io
 
-
-15. To make sure jenkins trust all git 
-    # git config --global --add safe.directory '*'
+15. To view argocd file and delete
+    # kubectl get applications -n argocd
+    # kubectl delete application cicd-argocd -n argocd
 
 16. Reason to specify the "docker agent" in the code
     -> this helps to skip the manual installation of the docker in the jenkins. This cmd Spin up a temporary container (docker:latest)

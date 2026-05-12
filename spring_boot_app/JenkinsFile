@@ -53,7 +53,7 @@ pipeline{
                     git config user.name "jenkins"
 
                     git add cicd-deployment.yaml
-                    git commit -m "Update image to ${BUILD_NUMBER}"
+                    git diff --cached --quiet || git commit -m "Update image to ${BUILD_NUMBER}"
                     git push origin main
 
                     '''
