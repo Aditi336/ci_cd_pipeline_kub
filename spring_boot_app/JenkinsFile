@@ -53,7 +53,7 @@ pipeline{
                     cd cd_k8s_manifest
                     cd dev
                     sed -i "s|amulu876/index-html:.*|amulu874/index-html:${BUILD_NUMBER}|g" cicd-deployment.yaml
-
+                    cat cicd-deployment.yaml
                     git config user.email "aditijuly2004@gmail.com"
                     git config user.name "jenkins"
 
