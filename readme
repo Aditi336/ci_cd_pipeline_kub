@@ -83,3 +83,15 @@
         args '-v /var/run/docker.sock:/var/run/docker.sock'
     }
     }
+17. After successful deployment of jenkins pipeline. we can check service pod
+    # kubectl get svc
+18. to deploy service and view in the index by starting service tunnel
+    # minikube service cicd-service
+19. to configure webhooks for jenkins
+    a. go to github
+    b. navigate to settings->developer settings->webhooks->add jenkins url
+    c. ensure for tick mark sign
+    d. go to jenkins
+    e. edit pipline configuration
+    f. check GitHUB hook trigger for GitSCM polling
+    g. we can change the contents and verify if jenkins is running
