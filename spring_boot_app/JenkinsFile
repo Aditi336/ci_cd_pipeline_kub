@@ -51,6 +51,7 @@ pipeline{
                     rm -rf cd_k8s_manifest
                     git clone https://${GIT_USER}:${GIT_PASS}@github.com/Aditi336/cd_k8s_manifest.git
                     cd cd_k8s_manifest
+                    cd dev
                     sed -i "s|amulu876/index-html:.*|amulu876/index-html:${BUILD_NUMBER}|g" cicd-deployment.yaml
 
                     git config user.email "aditijuly2004@gmail.com"
